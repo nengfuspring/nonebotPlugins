@@ -6,7 +6,7 @@ from nonebot.matcher import Matcher
 from nonebot.typing import T_Handler, T_State
 from nonebot.message import event_postprocessor
 from nonebot.params import EventMessage, CommandArg
-from nonebot.adapters.onebot.v11 import Bot, Message, MessageEvent, GroupMessageEvent
+from nonebot.adapters.onebot.v11 import Bot, Message, MessageEvent, GroupMessageEvent, MessageSegment
 from nonebot.log import logger
 
 from .data_source import sources, Source, download_image
@@ -134,7 +134,8 @@ async def send_forward_msg(
     messages = [to_json(msg) for msg in msgs]
     # await bot.send(event, messages)
     # print(messages)
-    # await bot.send_group_forward_msg(group_id=event.group_id, messages=messages)
-    await bot.call_api(
-        "send_group_forward_msg", group_id=event.group_id, messages=messages
-    )
+    try:
+        await bot.send_group_forward_msg(group_id=event.group_id, messages=messages)
+    except Exception as e:
+        print(e)
+        await bot.send(MessageSegment.text("出错了"))
