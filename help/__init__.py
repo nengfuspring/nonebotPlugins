@@ -19,10 +19,10 @@ help = on_command("help", aliases={"帮助", "功能"}, block=True)
 
 @driver.on_startup
 async def on_botstart():
-    shutdown_browser()
+    await shutdown_browser()
 @driver.on_shutdown
 async def on_botshutdown():
-    shutdown_browser()
+    await shutdown_browser()
 
 @help.handle()
 async def _(event: MessageEvent, msg: Message = CommandArg()):
