@@ -18,7 +18,7 @@ async def get_bt_info(keyword: str, page: int):
     :param keyword: 关键词
     :param page: 页数
     """
-    text = (await httpx.get(f"{url}/s/{keyword}_rel_{page}.html", timeout=5)).text
+    text = (httpx.get(f"{url}/s/{keyword}_rel_{page}.html", timeout=5)).text
     if text.find("大约0条结果") != -1:
         return
     soup = BeautifulSoup(text, "lxml")
@@ -46,6 +46,6 @@ async def get_download_link(_url: str) -> str:
     获取资源下载地址
     :param _url: 链接
     """
-    text = (await httpx.get(f"{url}{_url}")).text
+    text = (httpx.get(f"{url}{_url}")).text
     soup = BeautifulSoup(text, "lxml")
     return soup.find("a", {"id": "down-url"})["href"]
