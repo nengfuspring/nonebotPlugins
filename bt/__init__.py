@@ -36,7 +36,7 @@ from nonebot.typing import T_State
 # }
 
 
-bt = on_command("bt", permission=PRIVATE, priority=5, block=True)
+bt = on_command("bt", priority=5, block=True)
 
 
 @bt.handle()
@@ -78,6 +78,7 @@ async def _(
     except TimeoutError:
         await bt.finish(f"搜索 {keyword} 超时...")
     except Exception as e:
+        print(e)
         await bt.finish(f"bt 其他未知错误..")
     if not send_flag:
         await bt.send(f"{keyword} 未搜索到...")

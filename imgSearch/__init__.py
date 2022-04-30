@@ -138,4 +138,4 @@ async def send_forward_msg(
         await bot.send_group_forward_msg(group_id=event.group_id, messages=messages)
     except Exception as e:
         print(e)
-        await bot.send(MessageSegment.text("出错了"))
+        await bot.send(event, "出错了", at_sender = True)
