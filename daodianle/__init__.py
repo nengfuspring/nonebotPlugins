@@ -27,7 +27,6 @@ daodian_runtime_data = {}
 
 @driver.on_startup
 async def on_botstart():
-    print("on_botstart")
     global daodian_runtime_data
     try:
         with open(dir_path / "db_record.json", "r", encoding="utf-8") as f:
@@ -67,17 +66,20 @@ async def add(bot: Bot, event: GroupMessageEvent, state: T_State, arg: Message =
     try:
         imgPath = meta[0]
         md5 = str(meta[1]).split(".")[0]
-        img = httpx.get(imgPath)
+        # img = httpx.get(imgPath)
         saveImgPath = resource_path / "img" / (md5 + ".gif")
         urllib.request.urlretrieve(imgPath, saveImgPath)
-        if daodian_runtime_data.get(gid) != None and daodian_runtime_data.get(gid).get("cloudMusicImg") != None:
-            added = False
-            for record_path in daodian_runtime_data.get(gid).get("cloudMusicImg"):
-                if record_path == saveImgPath:
-                    added = True
-            if not added:
-                daodian_runtime_data.get(gid).get("cloudMusicImg").append(saveImgPath)
+        if daodian_runtime_data.get(gid) == None:
+            daodian_runtime_data[gid] = {}
+        if daodian_runtime_data.get(gid).get("cloudMusicImg") == None:
+            temp = getGroupRandomFile(gid, "cloudMusicImg", f"{resource_path}/img/")
+        added = False
+        if saveImgPath in daodian_runtime_data.get(gid).get("cloudMusicImg"):
+            added = True
+        if not added:
+            daodian_runtime_data.get(gid).get("cloudMusicImg").append(saveImgPath)
         logger.info(f"{__help__plugin_name__}:{str(event.user_id)}:addimg:{md5}")
+        dbsave()
         await daodianle_add.send(MessageSegment.text("添加成功~") + MessageSegment.image(imgPath))
     except Exception as e:
         logger.info(f"{__help__plugin_name__}:erro:{str(event.user_id)}:addimg:{md5}:e:{e}")

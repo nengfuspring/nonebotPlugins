@@ -1,4 +1,4 @@
-from nonebot import get_driver, on_command, require
+from nonebot import get_driver, on_command, require, logger
 from nonebot.typing import T_State
 from nonebot.adapters.onebot.v11 import MessageSegment, Bot, MessageEvent, GroupMessageEvent, Message
 from nonebot.params import CommandArg
@@ -24,14 +24,18 @@ bing_runtime_data = {}
 
 @driver.on_startup
 async def on_botstart():
-    print("on_botstart")
     global bing_runtime_data
     try:
         with open(dir_path / "db_record.json", "r", encoding="utf-8") as f:
             bing_runtime_data = json.load(f)
             f.close()
-            if bing_runtime_data == None:
-                bing_runtime_data = {}
+        if bing_runtime_data == None:
+            bing_runtime_data = {}
+        if bing_runtime_data.get("subscribe") != None:
+            start_str = "bing订阅群："
+            for subscribe_id in bing_runtime_data.get("subscribe"):
+                start_str += subscribe_id + ","
+            logger.info(start_str)
     except:
         bing_runtime_data = {}
     scheduler.add_job(bing_wall_paper, "cron", hour=8, minute=0, id=str(1))

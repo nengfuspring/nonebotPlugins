@@ -21,7 +21,6 @@ crazy_runtime_data = {}
 
 @driver.on_startup
 async def on_botstart():
-    print("on_botstart")
     global crazy_runtime_data
     try:
         with open(dir_path / "db_record.json", "r", encoding="utf-8") as f:
