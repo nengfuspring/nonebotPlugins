@@ -1,5 +1,5 @@
 from typing import Optional, Union
-from nonebot import on_command
+from nonebot import on_command, get_driver
 from nonebot.params import CommandArg
 from nonebot.adapters.onebot.v11 import (
     MessageEvent,
@@ -10,12 +10,19 @@ from nonebot.adapters.onebot.v11 import (
 
 from .data_source import get_help_img, get_plugin_img
 from .plugin import get_plugins
+from .browser import shutdown_browser
 
 
 
-
+driver = get_driver()
 help = on_command("help", aliases={"帮助", "功能"}, block=True)
 
+@driver.on_startup
+async def on_botstart():
+    shutdown_browser()
+@driver.on_shutdown
+async def on_botshutdown():
+    shutdown_browser()
 
 @help.handle()
 async def _(event: MessageEvent, msg: Message = CommandArg()):

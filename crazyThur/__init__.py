@@ -33,7 +33,6 @@ async def on_botstart():
 
 @driver.on_shutdown
 async def on_botshutdown():
-    print("on_botshutdown")
     dbsave()
     
 crazy = on_command("疯狂星期四", priority=5, block=True)

@@ -39,7 +39,6 @@ async def on_botstart():
 
 @driver.on_shutdown
 async def on_botshutdown():
-    print("on_botshutdown")
     dbsave()
     
 daodianle = on_command("到点了", priority=5, block=True)

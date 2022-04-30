@@ -51,8 +51,10 @@ async def get_new_page(**kwargs) -> AsyncIterator[Page]:
 
 
 async def shutdown_browser():
-    await _browser.close()
-    await _playwright.stop()
+    if _browser != None:
+        await _browser.close()
+    if _playwright != None:
+        await _playwright.stop()
 
 
 async def install_browser():
