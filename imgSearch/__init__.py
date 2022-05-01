@@ -133,9 +133,9 @@ async def send_forward_msg(
 
     messages = [to_json(msg) for msg in msgs]
     # await bot.send(event, messages)
-    # print(messages)
+    # logger.info(messages)
     try:
         await bot.send_group_forward_msg(group_id=event.group_id, messages=messages)
     except Exception as e:
-        print(e)
+        logger.info(e)
         await bot.send(event, "出错了", at_sender = True)

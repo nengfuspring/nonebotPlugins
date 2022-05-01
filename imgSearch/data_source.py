@@ -12,7 +12,7 @@ async def search_saucenao(image: bytes) -> List[Message]:
     data = {"hide": "true"}
     headers = {"referer": "https://saucenao.com"}
     result = await post("/api/SauceNAO", data, image, headers)
-    # print(result)
+    # logger.info(result)
     return [
         MessageSegment.image(res["image"])
         + "{}\n图片相似度: {:.2f}%\n图片来源:\n{}".format(

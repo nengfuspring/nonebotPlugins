@@ -1,4 +1,4 @@
-from nonebot import get_driver, on_command
+from nonebot import get_driver, on_command, logger
 from nonebot.typing import T_State
 from nonebot.adapters.onebot.v11 import MessageSegment, Bot, MessageEvent, GroupMessageEvent, Message
 from nonebot.params import CommandArg
@@ -30,6 +30,7 @@ async def _(bot: Bot, event: GroupMessageEvent, state: T_State, arg: Message = C
             post = fake_msg(str(event.message), member_list)
         except Exception:
             post = "格式不对"
+            await fake.finish(MessageSegment.text(post))
         await bot.send_group_forward_msg(group_id=gid, messages=post)
 
 def fake_msg(text: str, member_list: list) -> list:
@@ -48,7 +49,7 @@ def fake_msg(text: str, member_list: list) -> list:
             subStr = ""
         if i == len(msg) - 1:
             parsed.append(subStr)
-    print(parsed)
+    logger.info(parsed)
     node = list()
     for i in range(len(parsed)):
         if "[CQ:at" in parsed[i] and i < len(parsed) - 1:
@@ -64,6 +65,6 @@ def fake_msg(text: str, member_list: list) -> list:
             for member in member_list:
                 if member["user_id"] == int(uid[0]):
                     name = member["nickname"]
-            print(name, content)
+            logger.info(name, content)
             node.append({"type": "node", "data": {"name": name, "uin": uid[0], "content": content}})
     return node

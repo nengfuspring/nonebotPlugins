@@ -89,7 +89,6 @@ async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
     if plugin.name == "setu" and not str(event.user_id) in bot.config.superusers:
         img_path = "file:///" + str(resource_path / "notsese.gif")
         await unblock.finish(MessageSegment.image(img_path))
-    print("change")
     result = plugin_manager.unblock_plugin([plugin.name], conv)
     if result.get(plugin.name, False):
         res = f"{plugin.short_name or plugin.name}"

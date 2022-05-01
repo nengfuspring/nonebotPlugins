@@ -45,6 +45,7 @@ bing = on_command("bing", priority=6, block=True)
 async def _(bot: Bot, event: GroupMessageEvent, state: T_State, arg: Message = CommandArg()):
     response = httpx.get("https://bing.biturl.top/")
     jsonStr = json.load(response)
+    logger.info(jsonStr.get("url"))
     img = httpx.get(jsonStr.get("url"))
     await bing.send(MessageSegment.text("bing每日一图\n" + jsonStr.get("copyright")) + MessageSegment.image(img.content))
 
@@ -70,6 +71,7 @@ async def _(bot: Bot, event: GroupMessageEvent, state: T_State, arg: Message = C
 async def bing_wall_paper():
     response = httpx.get("https://bing.biturl.top/")
     jsonStr = json.load(response)
+    logger.info(jsonStr.get("url"))
     img = httpx.get(jsonStr.get("url"))
     # tempImgPath = project_path + "resource/img/temp/bing.jpg"
     # urllib.request.urlretrieve(jsonStr.get("url"), tempImgPath)
@@ -91,7 +93,6 @@ async def bing_wall_paper():
 
 def dbsave():
     global bing_runtime_data
-    print(bing_runtime_data)
     with open(dir_path / "db_record.json", "w", encoding="utf-8") as f:
         f.write(json.dumps(bing_runtime_data))
         f.close()
