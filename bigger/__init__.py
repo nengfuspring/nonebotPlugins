@@ -41,7 +41,7 @@ async def _(bot: Bot, event: GroupMessageEvent, state: T_State, arg: Message = C
     logger.info(md5)
     logger.info(imgType)
     if (imgType == 'gif' or imgType == "GIF"):# and not str(event.user_id) in bot.config.superusers:
-        await bigger.finish(MessageSegment.text("不支持动图"))
+        await bigger.finish(MessageSegment.text("不支持动图"), at_sender = True)
     post = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><msg serviceID=\"5\" templateID=\"1\" action=\"\" brief=\"&#91;表情图片&#93;\" sourceMsgId=\"0\" url=\"\" flag=\"0\" adverSign=\"0\" multiMsgFlag=\"0\"><item layout=\"0\" advertiser_id=\"0\" aid=\"0\"><image uuid=\"" + md5 + ".gif\" md5=\""+ md5 +"\" GroupFiledid=\"3070374325\" minWidth=\"400\" minHeight=\"400\" maxWidth=\"400\" maxHeight=\"400\" /></item><source name=\"\" icon=\"\" action=\"\" appid=\"-1\" /></msg>"
     post = "<?xml version='1.0' encoding='utf-8' standalone='yes' ?><msg serviceID='5' templateID='1' brief='[表情图片]' ><item layout=\"0\" advertiser_id=\"0\" aid=\"0\"><image uuid='"+ md5 +".jpg' md5='"+ md5 +"' GroupFiledid='2386948994' minWidth='400' minHeight='400' maxWidth='400' maxHeight='400'/></item><source name='' icon='' appid='-1' action='' i_actionData='' a_actionData='' url=''/></msg>"
     post = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><msg serviceID='5' templateID='1' action='' brief='[表情图片]' sourceMsgId='0' url='' flag='0' adverSign='0' multiMsgFlag='0'><item layout='0' advertiser_id='0' aid='0'><image uuid='"+ md5 +".jpg' md5='"+ md5 +"' GroupFiledid='0' filesize='36951' local_path='' minWidth='400' minHeight='400' maxWidth='400' maxHeight='400' /></item><source name='' icon='' action='' appid='-1' /></msg>"
