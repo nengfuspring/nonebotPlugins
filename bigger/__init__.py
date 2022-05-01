@@ -28,17 +28,16 @@ async def _(bot: Bot, event: GroupMessageEvent, state: T_State, arg: Message = C
     gid = str(event.group_id)
     meta = getPicMeta(str(event.message))
     imgPath = meta[0]
-    md5 = ""
-    try:
-        md5 = str(meta[1]).split(".")[0]
-    except Exception:
-        img = httpx.get(imgPath)
-        tempImgPath = resource_path / "bianda.gif"
-        urllib.request.urlretrieve(imgPath, tempImgPath)
-        with open(tempImgPath, 'rb') as fp:
-            data = fp.read()
-        md5 = hashlib.md5(data).hexdigest() + ""
-    imgType = imghdr.what(imgPath)
+    md5 = str(meta[1]).split(".")[0]
+
+    img = httpx.get(imgPath)
+    tempImgPath = resource_path / "bianda.gif"
+    urllib.request.urlretrieve(imgPath, tempImgPath)
+    # with open(tempImgPath, 'rb') as fp:
+    #     data = fp.read()
+    # md5 = hashlib.md5(data).hexdigest() + ""
+    imgType = imghdr.what(tempImgPath)
+
     logger.info(md5)
     logger.info(imgType)
     if (imgType == 'gif' or imgType == "GIF"):# and not str(event.user_id) in bot.config.superusers:
