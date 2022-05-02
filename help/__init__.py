@@ -43,7 +43,7 @@ async def get_help_msg(
             return "暂时没有可用的功能"
         event_type = "group" if isinstance(event, GroupMessageEvent) else "private"
         img = await get_help_img(event_type, plugins)
-        return MessageSegment.image(img) if img else "出错了，请稍后再试"
+        return MessageSegment.image(img) if img else "出错了，请稍后再试。"
     else:
         for p in plugins:
             if plugin_name.lower() in (p.name.lower(), p.short_name.lower()):
