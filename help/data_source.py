@@ -50,5 +50,5 @@ async def html_to_pic(
         await page.set_content(html, wait_until="networkidle")
         await page.wait_for_timeout(wait)
         img_raw = await page.screenshot(full_page=True)
-        shutdown_browser()
+    await shutdown_browser()
     return img_raw

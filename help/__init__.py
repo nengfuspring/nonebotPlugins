@@ -17,9 +17,6 @@ from .browser import shutdown_browser
 driver = get_driver()
 help = on_command("help", aliases={"帮助", "功能"}, block=True)
 
-@driver.on_startup
-async def on_botstart():
-    await shutdown_browser()
 @driver.on_shutdown
 async def on_botshutdown():
     await shutdown_browser()
