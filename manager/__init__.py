@@ -105,7 +105,9 @@ async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
     if not keyword:
         return
     param = keyword.split()
-    mode, plugin_name, gid = None
+    mode = None
+    plugin_name = None
+    gid = None
     try:
         mode = param[0]
         plugin_name = param[1]
