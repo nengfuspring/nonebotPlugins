@@ -1,3 +1,4 @@
+from loguru import logger
 from nonebot import get_driver, on_message, on_notice, on_command
 from nonebot.typing import T_State
 from nonebot.adapters.onebot.v11 import MessageSegment, Bot, MessageEvent, GroupMessageEvent, Message, PokeNotifyEvent
@@ -28,6 +29,7 @@ def manager_rule(bot: Bot, event: MessageEvent) -> bool:
     )
 block = on_command("block", aliases={"禁用"}, block=True)
 unblock = on_command("unblock", aliases={"启用"}, block=True)
+chmod = on_command("chmod", block=True)
 
 Conv = Dict[str, List[int]]
 
@@ -97,3 +99,32 @@ async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
     img_path = "file:///" + str(resource_path / "atriyes.jpg")
     await unblock.finish(MessageSegment.text(res) + MessageSegment.image(img_path))
 
+@chmod.handle()
+async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
+    keyword = msg.extract_plain_text().strip()
+    if not keyword:
+        return
+    logger.info(keyword)
+    logger.info(str(event.message))
+    logger.info(str(event.message).split()[1])
+    mode = 7
+    #chmod 7 pluginname groupoid
+    plugins = get_plugins(event)
+    plugin = None
+    for p in plugins[::-1]:
+        if keyword.lower() in (p.name.lower(), p.short_name.lower()):
+            plugin = p
+            break
+    if not plugin:
+        await unblock.finish(f"没有 {keyword}")
+
+    plugin_manager = PluginManager()
+    conv: Conv = get_conv(event)
+    if conv["group"]:
+        conv["user"] = []
+    result = plugin_manager.group_chmod([plugin.name], conv, int(mode))
+    # res = ""
+    # if result.get(plugin.name, False):
+    #     res = f"{plugin.short_name or plugin.name}"
+    await unblock.finish(MessageSegment.text(str(event.message) + " succ"))
+    
