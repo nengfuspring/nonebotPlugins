@@ -105,9 +105,13 @@ async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
     if not keyword:
         return
     param = keyword.split()
-    mode = param[0]
-    plugin_name = param[1]
-    gid = param[2]
+    mode, plugin_name, gid = None
+    try:
+        mode = param[0]
+        plugin_name = param[1]
+        gid = param[2]
+    except:
+        pass
     if gid == None and isinstance(event, GroupMessageEvent):
         gid = event.group_id
     logger.info(param)
