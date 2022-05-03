@@ -104,25 +104,37 @@ async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
     keyword = msg.extract_plain_text().strip()
     if not keyword:
         return
-    logger.info(keyword)
-    logger.info(str(event.message))
-    logger.info(str(event.message).split()[1])
-    mode = 7
+    param = keyword.split()
+    mode = param[0]
+    plugin_name = param[1]
+    gid = param[2]
+    if gid == None and isinstance(event, GroupMessageEvent):
+        gid = event.group_id
+    logger.info(param)
+    logger.info(mode)
+    logger.info(plugin_name)
+    logger.info(gid)
     #chmod 7 pluginname groupoid
+    plugin_list = []
     plugins = get_plugins(event)
-    plugin = None
-    for p in plugins[::-1]:
-        if keyword.lower() in (p.name.lower(), p.short_name.lower()):
-            plugin = p
-            break
-    if not plugin:
-        await unblock.finish(f"没有 {keyword}")
+    if plugin_name == "all":
+        for p in plugins[::-1]:
+            plugin_list.append(p.name)
+    else:
+        plugin = None
+        for p in plugins[::-1]:
+            if plugin_name.lower() in (p.name.lower(), p.short_name.lower()):
+                # plugin = p
+                plugin_list.append(p.name)
+                break
+        if not plugin:
+            await unblock.finish(f"没有 {plugin_name}")
 
     plugin_manager = PluginManager()
     conv: Conv = get_conv(event)
     if conv["group"]:
         conv["user"] = []
-    result = plugin_manager.group_chmod([plugin.name], conv, int(mode))
+    result = plugin_manager.group_chmod(plugin_list, conv, int(mode))
     # res = ""
     # if result.get(plugin.name, False):
     #     res = f"{plugin.short_name or plugin.name}"
