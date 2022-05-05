@@ -101,6 +101,8 @@ async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
 
 @chmod.handle()
 async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
+    if not str(event.user_id) in bot.config.superusers:
+        return
     keyword = msg.extract_plain_text().strip()
     if not keyword:
         return
@@ -116,10 +118,6 @@ async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
         pass
     if gid == None and isinstance(event, GroupMessageEvent):
         gid = event.group_id
-    logger.info(param)
-    logger.info(mode)
-    logger.info(plugin_name)
-    logger.info(gid)
     #chmod 7 pluginname groupoid
     plugin_list = []
     plugins = get_plugins(event)
@@ -134,8 +132,5 @@ async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
     if conv["group"]:
         conv["user"] = []
     result = plugin_manager.group_chmod(plugin_list, conv, int(mode))
-    # res = ""
-    # if result.get(plugin.name, False):
-    #     res = f"{plugin.short_name or plugin.name}"
-    await unblock.finish(MessageSegment.text(str(event.message) + " succ"))
+    await chmod.finish(MessageSegment.text(str(event.message) + " succ"))
     
