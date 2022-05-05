@@ -127,14 +127,7 @@ async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
         for p in plugins[::-1]:
             plugin_list.append(p.name)
     else:
-        # plugin = None
-        for p in plugins[::-1]:
-            if plugin_name.lower() in (p.name.lower(), p.short_name.lower()):
-                # plugin = p
-                plugin_list.append(p.name)
-                break
-        # if not plugin:
-        #     await unblock.finish(f"没有 {plugin_name}")
+        plugin_list.append(plugin_name)
 
     plugin_manager = PluginManager()
     conv: Conv = get_conv(event)
