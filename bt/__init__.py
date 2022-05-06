@@ -1,6 +1,6 @@
 from nonebot import on_command
 from .data_source import get_bt_info
-from nonebot.adapters.onebot.v11 import PrivateMessageEvent, Message
+from nonebot.adapters.onebot.v11 import PrivateMessageEvent, Message, MessageEvent
 from nonebot.adapters.onebot.v11.permission import PRIVATE
 from asyncio.exceptions import TimeoutError
 from nonebot.params import CommandArg, ArgStr
@@ -63,7 +63,7 @@ async def _(state: T_State, arg: Message = CommandArg()):
 
 @bt.got("keyword", prompt="请输入要查询的内容！")
 async def _(
-    event: PrivateMessageEvent,
+    event: MessageEvent,
     state: T_State,
     keyword: str = ArgStr("keyword"),
     page: str = ArgStr("page"),
