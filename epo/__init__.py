@@ -24,7 +24,7 @@ from nonebot.log import logger
 
 __help__plugin_name__ = "epo"
 __des__ = "找谱"
-__cmd__ = "简谱/五线谱"
+__cmd__ = "简谱[关键字]/五线谱[关键字]"
 __short_cmd__ = __cmd__
 __example__ = " "
 __usage__ = f"{__des__}\nUsage:\n{__cmd__}\nExample:\n{__example__}"

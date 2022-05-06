@@ -33,6 +33,13 @@ from .data_source import get_epic_free
 #     default_value=True,
 # )
 
+__help__plugin_name__ = "epic"
+__des__ = "epic最新免费游戏"
+__cmd__ = "epic"
+__short_cmd__ = __cmd__
+__example__ = " "
+__usage__ = f"{__des__}\nUsage:\n{__cmd__}\nExample:\n{__example__}"
+
 epic = on_regex("^epic$", priority=5, block=True)
 
 

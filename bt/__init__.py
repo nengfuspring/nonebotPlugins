@@ -34,6 +34,12 @@ from nonebot.typing import T_State
 #         "default_value": 10,
 #     }
 # }
+__help__plugin_name__ = "bt"
+__des__ = "磁力搜索"
+__cmd__ = "bt [关键字]"
+__short_cmd__ = __cmd__
+__example__ = " "
+__usage__ = f"{__des__}\nUsage:\n{__cmd__}\nExample:\n{__example__}"
 
 
 bt = on_command("bt", priority=5, block=True)
