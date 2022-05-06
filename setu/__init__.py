@@ -55,7 +55,7 @@ async def _(bot: Bot, event: MessageEvent, state: T_State = State()):
     key = args[2]
     qid = event.get_user_id()
     mid = event.message_id
-    logger.info(r18, key, qid, mid)
+    # logger.info(r18, key, qid, mid)
     data = await read_json()
 
     try:
