@@ -42,7 +42,7 @@ async def init():
 
 
 setu = on_regex(
-    r"^(setu|色图|涩图)\s?(r18)?\s?(.*)?",
+    r"^(setu|色图|涩图|我想打✈)\s?(r18)?\s?(.*)?",
     flags=I,
     permission=PRIVATE_FRIEND | GROUP,
 )
