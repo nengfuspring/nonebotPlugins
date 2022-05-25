@@ -14,12 +14,6 @@ from nonebot_plugin_manager import PluginManager
 from ..help.plugin import get_plugins
 
 
-__help__plugin_name__ = "eggs"
-__des__ = "一些彩蛋"
-__cmd__ = " "
-__short_cmd__ = __cmd__
-__example__ = " "
-__usage__ = f"{__des__}\nUsage:\n{__cmd__}\nExample:\n{__example__}"
 
 driver = get_driver()
 dir_path = Path(__file__).parent
@@ -102,7 +96,11 @@ async def _(bot: Bot, event: GroupMessageEvent, state: T_State = State()):
         post = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><msg serviceID=\"5\" templateID=\"1\" action=\"\" brief=\"&#91;图片表情&#93;\" sourceMsgId=\"0\" url=\"\" flag=\"0\" adverSign=\"0\" multiMsgFlag=\"0\"><item layout=\"0\" advertiser_id=\"0\" aid=\"0\"><image uuid=\"81CD9987C65701ABC08560E761B24CFC.gif\" md5=\"81CD9987C65701ABC08560E761B24CFC\" GroupFiledid=\"3032610211\" filesize=\"218138\" local_path=\"/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/MobileQQ/chatpic/chatimg/aa3/Cache_10ade3c8fe5d5aa3\" minWidth=\"400\" minHeight=\"400\" maxWidth=\"400\" maxHeight=\"400\" /></item><source name=\"\" icon=\"\" action=\"\" appid=\"-1\" /></msg>"
         # await m.send(MessageSegment.xml(post))
     if "老几" in str(event.message) and "安排了" in str(event.message) and gid == "596451786":
-        await egg.send(MessageSegment.at(1539826729))
+        info = await bot.get_group_member_info(
+            group_id=596451786, user_id=1539826729
+        )
+        name = info.get("card", "") or info.get("nickname", "")
+        await egg.send(MessageSegment.text("@"+name))
     
 def getPicMeta(message: str):
     return re.findall("url=(.*?)[,|\]]", message)[0], re.findall("file=(.*?)[,|\]]", message)[0]
