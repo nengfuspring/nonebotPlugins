@@ -64,7 +64,8 @@ def fake_msg(text: str, member_list: list) -> list:
             name = uid[0]
             for member in member_list:
                 if member["user_id"] == int(uid[0]):
-                    name = member["nickname"]
+                    name = member.get("card", "") or member.get("nickname", "")
+                    # name = member["nickname"]
             logger.info(name, content)
             node.append({"type": "node", "data": {"name": name, "uin": uid[0], "content": content}})
     return node
