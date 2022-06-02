@@ -101,6 +101,8 @@ async def _(bot: Bot, event: GroupMessageEvent, state: T_State = State()):
         )
         name = info.get("card", "") or info.get("nickname", "")
         await egg.send(MessageSegment.text("@"+name))
+    if "群" in str(event.message) and "害人不浅" in str(event.message):
+        await egg.send(MessageSegment.record( "file:///" + str(resource_path / "hairenbuqian.mp3")))
     
 def getPicMeta(message: str):
     return re.findall("url=(.*?)[,|\]]", message)[0], re.findall("file=(.*?)[,|\]]", message)[0]
